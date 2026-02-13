@@ -651,7 +651,8 @@ nav ul li a:hover {
         right: 0;
         left: 0;
         margin: 0 auto;
-        z-index: 1;
+        z-index: 50;
+        /* Ensure moon is on top */
     }
 
     .moon {
@@ -662,8 +663,20 @@ nav ul li a:hover {
 
     .lanterns {
         display: block;
-        transform: scale(0.7);
+        transform: scale(0.45);
+        /* Scale down more for small screens */
         transform-origin: top center;
+        opacity: 0.9;
+    }
+
+    /* Keep it simple on mobile: hide most lanterns */
+    .lantern:nth-child(even) {
+        display: none;
+    }
+
+    .lantern:nth-child(3),
+    .lantern:nth-child(5) {
+        display: none;
     }
 
     .features {
