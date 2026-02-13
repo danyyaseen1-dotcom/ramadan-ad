@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         particle.style.left = `${x}px`;
         particle.style.top = `${y}px`;
 
-        const size = (isLantern ? 0.8 : 3) + Math.random() * 1.5;
+        const size = Math.random() * 3 + 1; // Slightly larger for more "shine"
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
 
