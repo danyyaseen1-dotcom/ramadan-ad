@@ -481,15 +481,18 @@ nav ul li a:hover {
 /* Golden Crescent Particle Styles */
 .golden-crescent {
     position: absolute;
-    width: 18px;
-    height: 18px;
+    width: 10px;
+    /* Smaller size - was 18px */
+    height: 10px;
     background: transparent;
     border-radius: 50%;
     pointer-events: none;
     z-index: 1002;
     /* Hilal effect: thick box-shadow on a transparent circle */
-    box-shadow: 3px 3px 0 0 #FFD700;
-    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
+    box-shadow: 2px 2px 0 0 #FFD700;
+    /* Adjusted shadow for smaller size */
+    filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.6));
+    /* Softer glow */
     animation: crescent-fall 2s ease-out forwards;
 }
 
