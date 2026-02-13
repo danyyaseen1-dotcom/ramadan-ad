@@ -391,8 +391,8 @@ nav ul li a:hover {
 /* Global Ramadan Kareem Calligraphy Style */
 .moon-text {
     position: absolute;
-    top: -40px;
-    /* Desktop position */
+    top: -15px;
+    /* Lowered to sit closer to the moon */
     left: -20px;
     width: 300px;
     text-align: center;
