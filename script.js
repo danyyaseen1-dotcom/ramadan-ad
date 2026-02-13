@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         particle.style.left = `${x}px`;
         particle.style.top = `${y}px`;
 
-        const size = (isLantern ? 1.5 : 3) + Math.random() * 2;
+        const size = (isLantern ? 0.8 : 3) + Math.random() * 1.5;
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
 
@@ -92,18 +92,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Trigger animation next frame
             requestAnimationFrame(() => {
-                particle.style.transform = `translate(${drift}px, ${targetY - y}px) rotate(${Math.random() * 360}deg)`;
+                particle.style.transform = `translate(${drift}px, ${targetY - y}px) rotate(${Math.random() * 720}deg)`;
             });
 
             // Accumulation: leave it at the bottom for a while
             setTimeout(() => {
                 particle.classList.add('landed');
-                particle.style.opacity = '0.7';
+                particle.style.opacity = '0.5';
                 // Remove eventually to keep performance
                 setTimeout(() => {
                     particle.style.opacity = '0';
                     setTimeout(() => particle.remove(), 1000);
-                }, 10000);
+                }, 15000);
             }, fallDuration * 1000);
         } else {
             // Original mouse sparkle logic
