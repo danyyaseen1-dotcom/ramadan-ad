@@ -44,19 +44,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- GOLDEN CRESCENT PARTICLES ON MOUSEMOVE (DESKTOP ONLY) ---
-    // Detect if device is touch-enabled (mobile/tablet)
-    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    // --- GOLDEN PARTICLES ON MOUSEMOVE (FULL SITE) ---
+    document.addEventListener('mousemove', (e) => {
+        // Create golden crescent particles occasionally
+        if (Math.random() > 0.85) {
+            createGoldenCrescent(e.clientX, e.clientY);
+        }
 
-    // Only enable crescent particles on desktop to avoid mobile scroll issues
-    if (!isTouchDevice) {
-        document.addEventListener('mousemove', (e) => {
-            // Create golden crescent particles anywhere on page
-            if (Math.random() > 0.8) { // 20% chance per mousemove
-                createGoldenCrescent(e.clientX, e.clientY);
-            }
-        });
-    }
+        // Create golden dust particles (finer and more frequent)
+        if (Math.random() > 0.7) {
+            createGoldenDust(e.clientX, e.clientY);
+        }
+    });
 
     // --- CRUNCH EFFECT ON SAMOSA CLICK ---
     const heroSamosa = document.querySelector('.samosa-3d');
@@ -108,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, 150); // Faster interval: 150ms instead of 200ms for more particles
 
-    // Helper function to create golden dust from lanterns
+    // Helper function to create golden dust
     function createGoldenDust(x, y) {
         const dust = document.createElement('div');
         dust.className = 'golden-dust';
@@ -137,7 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Helper function to create crumbs on click
     function createCrumb(x, y) {
-
         const crumb = document.createElement('div');
         crumb.className = 'crumb';
         crumb.style.left = `${x}px`;
@@ -151,8 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(crumb);
         setTimeout(() => crumb.remove(), 800);
     }
-
-
 
     // --- SMART countdown LOGIC ---
     function updateCountdown() {
@@ -184,6 +180,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setInterval(updateCountdown, 1000);
     updateCountdown();
-
 
 });
