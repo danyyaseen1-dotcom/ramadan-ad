@@ -123,12 +123,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const rect = light.getBoundingClientRect();
             // Only drop if lantern is somewhat visible
             if (rect.top > -100 && rect.top < window.innerHeight) {
-                if (Math.random() > 0.6) {
+                // Increased probability for visibility
+                if (Math.random() > 0.4) {
                     createSparkle(rect.left + rect.width / 2, rect.top + rect.height / 2, true);
                 }
             }
         });
-    }, 300);
+    }, 150);
 
     document.addEventListener('mousemove', (e) => {
         const x = e.clientX;
