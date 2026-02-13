@@ -663,9 +663,12 @@ nav ul li a:hover {
 
     .lanterns {
         display: flex;
-        justify-content: space-evenly;
+        flex-direction: row;
+        justify-content: center;
+        /* Center them perfectly */
+        gap: 20px;
+        /* Space between lanterns */
         align-items: flex-start;
-        padding: 0 5%;
         position: absolute;
         top: 0;
         left: 0;
@@ -674,21 +677,39 @@ nav ul li a:hover {
         transform: scale(0.6);
         transform-origin: top center;
         z-index: 2;
+        padding: 0;
+        /* Remove padding for true centering */
     }
 
     .lantern {
         position: relative !important;
+        /* Move out of absolute flow */
         left: auto !important;
+        /* Override inline styles */
+        right: auto !important;
+        /* Override inline styles */
         top: 0 !important;
         flex: 0 0 auto;
+        width: 45px;
+        /* Fixed width for consistent spacing */
     }
 
-    /* Clear and organized: Show only 3 lanterns on mobile */
-    .lantern:nth-child(2),
-    .lantern:nth-child(4),
-    .lantern:nth-child(5),
-    .lantern:nth-child(6) {
+    /* Selection for perfect symmetry: Show only 1st, 3rd, and 6th lanterns */
+    .lantern {
         display: none;
+    }
+
+    /* Hide all first */
+    .lantern:nth-child(1),
+    .lantern:nth-child(3),
+    .lantern:nth-child(6) {
+        display: flex;
+        /* Show only these three */
+    }
+
+    .string {
+        height: 60px;
+        /* Shorter strings on mobile */
     }
 
     .features {
