@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // WhatsApp configuration
-    const phoneNumber = "773003434";
+    const phoneNumber = "967773003434";
     const baseMessage = "أهلاً رقائق بلال العقاب، أريد طلب: ";
 
     // Smooth scroll for navigation
