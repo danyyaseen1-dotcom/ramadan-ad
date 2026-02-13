@@ -44,29 +44,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- STEAM EFFECT ENGINE ---
-    setInterval(() => {
-        const samosa = document.querySelector('.samosa-3d');
-        if (samosa) {
-            const rect = samosa.getBoundingClientRect();
-            createSteam(rect.left + rect.width / 2 + (Math.random() - 0.5) * 50, rect.top + 50);
-        }
-    }, 400);
-
-    function createSteam(x, y) {
-        const steam = document.createElement('div');
-        steam.className = 'steam';
-        steam.style.left = `${x}px`;
-        steam.style.top = `${y}px`;
-        // Random drift
-        steam.style.setProperty('--dx', `${(Math.random() - 0.5) * 40}px`);
-        document.body.appendChild(steam);
-        setTimeout(() => steam.remove(), 3000);
-    }
-
-    // --- INTERACTIVE CRUNCH FEATURE ---
+    // --- GOLDEN CRESCENT PARTICLES ON SAMOSA HOVER & CRUNCH ON CLICK ---
     const heroSamosa = document.querySelector('.samosa-3d');
     if (heroSamosa) {
+        // Golden crescent particles on mousemove
+        heroSamosa.addEventListener('mousemove', (e) => {
+            // Create golden crescent particles
+            if (Math.random() > 0.7) { // 30% chance per mousemove
+                createGoldenCrescent(e.clientX, e.clientY);
+            }
+        });
+
+        // Crunch effect on click
         heroSamosa.addEventListener('click', (e) => {
             // Explode crumbs
             for (let i = 0; i < 15; i++) {
@@ -81,7 +70,57 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Helper function to create golden crescent particles
+    function createGoldenCrescent(x, y) {
+        const crescent = document.createElement('div');
+        crescent.className = 'golden-crescent';
+        crescent.style.left = `${x}px`;
+        crescent.style.top = `${y}px`;
+
+        // Random fall trajectory
+        const tx = (Math.random() - 0.5) * 100;
+        const ty = Math.random() * 300 + 100;
+        crescent.style.setProperty('--tx', `${tx}px`);
+        crescent.style.setProperty('--ty', `${ty}px`);
+
+        document.body.appendChild(crescent);
+        setTimeout(() => crescent.remove(), 2000);
+    }
+
+    // --- LANTERN GOLDEN DUST EFFECT ---
+    setInterval(() => {
+        const lanterns = document.querySelectorAll('.lantern');
+        lanterns.forEach(lantern => {
+            if (Math.random() > 0.5) { // 50% chance per interval
+                const rect = lantern.getBoundingClientRect();
+                createGoldenDust(
+                    rect.left + rect.width / 2 + (Math.random() - 0.5) * 20,
+                    rect.bottom - 20
+                );
+            }
+        });
+    }, 200);
+
+    // Helper function to create golden dust from lanterns
+    function createGoldenDust(x, y) {
+        const dust = document.createElement('div');
+        dust.className = 'golden-dust';
+        dust.style.left = `${x}px`;
+        dust.style.top = `${y}px`;
+
+        // Random fall trajectory
+        const tx = (Math.random() - 0.5) * 30;
+        const ty = Math.random() * 200 + 100;
+        dust.style.setProperty('--tx', `${tx}px`);
+        dust.style.setProperty('--ty', `${ty}px`);
+
+        document.body.appendChild(dust);
+        setTimeout(() => dust.remove(), 3000);
+    }
+
+    // Helper function to create crumbs on click
     function createCrumb(x, y) {
+
         const crumb = document.createElement('div');
         crumb.className = 'crumb';
         crumb.style.left = `${x}px`;
@@ -162,56 +201,125 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function drawGreetingCard(name) {
-        // Background
+        // Background gradient
         const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
         grad.addColorStop(0, '#1A1A1A');
+        grad.addColorStop(0.5, '#2D1B14');
         grad.addColorStop(1, '#3D2B1F');
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // Decorative Border
+        // Decorative golden border with pattern
         ctx.strokeStyle = '#FFD700';
-        ctx.lineWidth = 15;
-        ctx.strokeRect(30, 30, canvas.width - 60, canvas.height - 60);
+        ctx.lineWidth = 20;
+        ctx.strokeRect(40, 40, canvas.width - 80, canvas.height - 80);
 
-        // Ornament dots
+        // Inner decorative border
+        ctx.strokeStyle = 'rgba(255, 215, 0, 0.4)';
+        ctx.lineWidth = 3;
+        ctx.strokeRect(60, 60, canvas.width - 120, canvas.height - 120);
+
+        // Golden ornamental dots/stars overlay
         ctx.fillStyle = '#FFD700';
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 80; i++) {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            const size = Math.random() * 3 + 1;
             ctx.beginPath();
-            ctx.arc(Math.random() * canvas.width, Math.random() * canvas.height, Math.random() * 2, 0, Math.PI * 2);
+            ctx.arc(x, y, size, 0, Math.PI * 2);
             ctx.fill();
         }
 
-        // Title text
+        // Decorative crescents (hilal) in corners
+        const drawCrescent = (x, y, size, rotation) => {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(rotation);
+            ctx.fillStyle = 'rgba(255, 215, 0, 0.3)';
+            ctx.beginPath();
+            ctx.arc(0, 0, size, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#2D1B14';
+            ctx.beginPath();
+            ctx.arc(size * 0.5, size * 0.5, size, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+        };
+
+        drawCrescent(120, 120, 40, -Math.PI / 4);
+        drawCrescent(canvas.width - 120, 120, 40, Math.PI / 4);
+        drawCrescent(120, canvas.height - 120, 40, -Math.PI * 3 / 4);
+        drawCrescent(canvas.width - 120, canvas.height - 120, 40, Math.PI * 3 / 4);
+
+        // Main title - "كل عام وأنتم بخير"
         ctx.fillStyle = '#FFD700';
         ctx.textAlign = 'center';
-        ctx.font = 'bold 60px Amiri';
-        ctx.fillText('كل عام وأنتم بخير', canvas.width / 2, 250);
+        ctx.textBaseline = 'middle';
+        ctx.font = 'bold 55px Arial, sans-serif';
+        ctx.shadowColor = 'rgba(255, 215, 0, 0.5)';
+        ctx.shadowBlur = 15;
+        ctx.fillText('كل عام وأنتم بخير', canvas.width / 2, 220);
 
-        // Main Greeting
-        ctx.font = '70px Amiri';
-        ctx.fillText('رمضان كريم', canvas.width / 2, 400);
+        // Main greeting - "رمضان كريم"
+        ctx.font = 'bold 85px Arial, sans-serif';
+        ctx.shadowBlur = 20;
+        const gradient = ctx.createLinearGradient(0, 350, 0, 420);
+        gradient.addColorStop(0, '#FFD700');
+        gradient.addColorStop(0.5, '#FFF');
+        gradient.addColorStop(1, '#FFD700');
+        ctx.fillStyle = gradient;
+        ctx.fillText('رمضان كريم', canvas.width / 2, 380);
 
-        // User Name
-        ctx.fillStyle = '#fff';
-        ctx.font = 'bold 80px Amiri';
+        // User name with a decorative underline
+        ctx.shadowBlur = 25;
+        ctx.fillStyle = '#FFF';
+        ctx.font = 'bold 95px Arial, sans-serif';
         ctx.fillText(name, canvas.width / 2, 550);
 
-        // Subtext
-        ctx.fillStyle = '#FFD700';
-        ctx.font = '30px Tajawal';
-        ctx.fillText('من عائلة رقائق بلال العقاب', canvas.width / 2, 700);
+        // Decorative line under name
+        ctx.strokeStyle = '#FFD700';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(canvas.width / 2 - 180, 600);
+        ctx.lineTo(canvas.width / 2 + 180, 600);
+        ctx.stroke();
 
-        // Logo text at bottom
-        ctx.font = '900 40px Tajawal';
-        ctx.fillText('بلال العقاب', canvas.width / 2, 850);
+        // Small decorative stars on the line
+        ctx.fillStyle = '#FFD700';
+        ctx.font = '30px Arial';
+        ctx.fillText('✦', canvas.width / 2 - 200, 600);
+        ctx.fillText('✦', canvas.width / 2 + 200, 600);
+
+        // Subtext - brand message
+        ctx.shadowBlur = 10;
+        ctx.fillStyle = '#FFD700';
+        ctx.font = '32px Arial, sans-serif';
+        ctx.fillText('من عائلة رقائق بلال العقاب', canvas.width / 2, 720);
+
+        // Brand logo text at bottom with emphasis
+        ctx.shadowBlur = 15;
+        ctx.font = 'bold 50px Arial, sans-serif';
+        const logoGrad = ctx.createLinearGradient(0, 830, 0, 880);
+        logoGrad.addColorStop(0, '#FFD700');
+        logoGrad.addColorStop(1, '#B8860B');
+        ctx.fillStyle = logoGrad;
+        ctx.fillText('بلال العقاب', canvas.width / 2, 860);
+
+        // Small decorative element below brand
+        ctx.font = '25px Arial';
+        ctx.fillStyle = 'rgba(255, 215, 0, 0.6)';
+        ctx.fillText('❖ ❖ ❖', canvas.width / 2, 920);
+
+        // Reset shadow
+        ctx.shadowBlur = 0;
 
         // Show download link
         downloadLink.style.display = 'inline-block';
         downloadLink.href = canvas.toDataURL('image/png');
         downloadLink.download = `Ramadan_Kareem_${name}.png`;
 
-        // Scroll to preview
-        canvas.scrollIntoView({ behavior: 'smooth' });
+        // Scroll to preview with smooth behavior
+        canvas.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
+
 });
