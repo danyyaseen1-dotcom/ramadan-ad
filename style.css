@@ -148,6 +148,8 @@ nav ul li a:hover {
     position: relative;
     width: 400px;
     height: 400px;
+    margin-top: 150px;
+    /* Lowered significantly to clear lanterns */
 }
 
 .samosa-3d {
