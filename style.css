@@ -657,8 +657,9 @@ nav ul li a:hover {
     }
 
     .lanterns {
-        display: none;
-        /* Hide complex lanterns on mobile to reduce clutter and improve performance */
+        display: block;
+        transform: scale(0.7);
+        transform-origin: top center;
     }
 
     .features {
