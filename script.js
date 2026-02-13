@@ -87,23 +87,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const drift = (Math.random() - 0.5) * 100;
             const targetY = window.innerHeight - 20; // Bottom of viewport
 
-            particle.style.transition = `transform ${fallDuration}s linear, opacity ${fallDuration}s`;
+            // Ensure they fade to 0 by the time they finish falling
+            particle.style.opacity = '0.8';
+            particle.style.transition = `transform ${fallDuration}s linear, opacity ${fallDuration}s ease-in`;
             document.body.appendChild(particle);
 
             // Trigger animation next frame
             requestAnimationFrame(() => {
                 particle.style.transform = `translate(${drift}px, ${targetY - y}px) rotate(${Math.random() * 720}deg)`;
+                particle.style.opacity = '0'; // Fade to zero during the same duration
             });
 
-            // Accumulation: leave it at the bottom for a while
+            // Remove purely based on fall duration
             setTimeout(() => {
-                particle.classList.add('landed');
-                particle.style.opacity = '0.5';
-                // Remove eventually to keep performance
-                setTimeout(() => {
-                    particle.style.opacity = '0';
-                    setTimeout(() => particle.remove(), 1000);
-                }, 15000);
+                particle.remove();
             }, fallDuration * 1000);
         } else {
             // Original mouse sparkle logic

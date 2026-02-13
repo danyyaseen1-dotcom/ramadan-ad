@@ -552,11 +552,6 @@ nav ul li a:hover {
     /* Disable default fall animation for lanterns */
 }
 
-.sparkle.landed {
-    filter: blur(1px);
-    box-shadow: 0 0 20px 2px var(--primary);
-}
-
 @keyframes fall-and-fade {
     0% {
         transform: translate(0, 0) rotate(0deg);
