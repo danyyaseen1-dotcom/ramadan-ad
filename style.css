@@ -541,12 +541,14 @@ nav ul li a:hover {
 }
 
 .sparkle.lantern-particle {
-    background: var(--primary);
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    width: 2px !important;
-    height: 3px !important;
-    box-shadow: 0 0 5px rgba(255, 215, 0, 0.4);
+    background: #FFD700;
+    clip-path: circle(50%);
+    /* Use circle for flour-like dust */
+    width: 1px !important;
+    height: 1px !important;
+    box-shadow: 0 0 3px rgba(255, 215, 0, 0.3);
     animation: none;
+    opacity: 0.6;
     /* Disable default fall animation for lanterns */
 }
 
