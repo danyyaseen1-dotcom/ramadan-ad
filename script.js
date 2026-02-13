@@ -82,12 +82,12 @@ document.addEventListener('DOMContentLoaded', () => {
         particle.style.height = `${size}px`;
 
         if (isLantern) {
-            // Gravity fall logic for lanterns - Slower fall
-            const fallDuration = 5 + Math.random() * 5;
+            // Floating dust logic for lanterns - Ultra-slow float
+            const fallDuration = 10 + Math.random() * 10;
             const drift = (Math.random() - 0.5) * 100;
             const targetY = window.innerHeight - 20; // Bottom of viewport
 
-            particle.style.transition = `transform ${fallDuration}s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity ${fallDuration}s`;
+            particle.style.transition = `transform ${fallDuration}s linear, opacity ${fallDuration}s`;
             document.body.appendChild(particle);
 
             // Trigger animation next frame
