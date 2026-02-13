@@ -44,13 +44,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- GOLDEN CRESCENT PARTICLES ON MOUSEMOVE (ENTIRE PAGE) ---
-    document.addEventListener('mousemove', (e) => {
-        // Create golden crescent particles anywhere on page
-        if (Math.random() > 0.8) { // 20% chance per mousemove (lower than before for better performance)
-            createGoldenCrescent(e.clientX, e.clientY);
-        }
-    });
+    // --- GOLDEN CRESCENT PARTICLES ON MOUSEMOVE (DESKTOP ONLY) ---
+    // Detect if device is touch-enabled (mobile/tablet)
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+    // Only enable crescent particles on desktop to avoid mobile scroll issues
+    if (!isTouchDevice) {
+        document.addEventListener('mousemove', (e) => {
+            // Create golden crescent particles anywhere on page
+            if (Math.random() > 0.8) { // 20% chance per mousemove
+                createGoldenCrescent(e.clientX, e.clientY);
+            }
+        });
+    }
 
     // --- CRUNCH EFFECT ON SAMOSA CLICK ---
     const heroSamosa = document.querySelector('.samosa-3d');
@@ -112,15 +118,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // Calculate exact distance to ground (bottom of viewport)
         const distanceToGround = window.innerHeight - y;
 
-        // Random horizontal drift
-        const tx = (Math.random() - 0.5) * 50;
+        // Random horizontal drift (reduced for calmer effect)
+        const tx = (Math.random() - 0.5) * 30; // Reduced from 50 to 30
 
         // Fall exactly to the ground
         dust.style.setProperty('--tx', `${tx}px`);
         dust.style.setProperty('--ty', `${distanceToGround}px`);
 
-        // Calculate animation duration based on distance (slower fall for realism)
-        const duration = Math.max(2000, distanceToGround * 3); // At least 2 seconds
+        // Calculate animation duration - SLOWER for calmer fall (5x instead of 3x)
+        const duration = Math.max(3000, distanceToGround * 5); // Slower, calmer fall
         dust.style.animationDuration = `${duration}ms`;
 
         document.body.appendChild(dust);
