@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
             particle.style.setProperty('--tx', `${tx}px`);
             particle.style.setProperty('--ty', `${ty}px`);
             document.body.appendChild(particle);
-            setTimeout(() => particle.remove(), 1500);
+            setTimeout(() => particle.remove(), 800);
         }
     }
 
@@ -128,20 +128,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, 150);
 
+    let throttleTimeout;
     document.addEventListener('mousemove', (e) => {
-        const x = e.clientX;
-        const y = e.clientY;
+        if (throttleTimeout) return;
 
-        for (let i = 0; i < 4; i++) {
-            if (Math.random() > 0.4) {
-                createSparkle(x, y);
+        throttleTimeout = setTimeout(() => {
+            const x = e.clientX;
+            const y = e.clientY;
+
+            for (let i = 0; i < 2; i++) {
+                if (Math.random() > 0.3) {
+                    createSparkle(x, y);
+                }
             }
-        }
+            throttleTimeout = null;
+        }, 30);
     });
 
     document.addEventListener('touchmove', (e) => {
         const touch = e.touches[0];
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 3; i++) {
             createSparkle(touch.clientX, touch.clientY);
         }
     });

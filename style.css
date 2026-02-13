@@ -529,7 +529,7 @@ nav ul li a:hover {
     pointer-events: none;
     z-index: 10000;
     box-shadow: 0 0 10px var(--primary);
-    animation: fall-and-fade 1.5s linear forwards;
+    animation: fall-and-fade 0.8s linear forwards;
 }
 
 .sparkle.moon-particle {
