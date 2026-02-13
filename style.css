@@ -546,6 +546,13 @@ nav ul li a:hover {
     width: 10px !important;
     height: 14px !important;
     box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+    animation: none;
+    /* Disable default fall animation for lanterns */
+}
+
+.sparkle.landed {
+    filter: blur(1px);
+    box-shadow: 0 0 20px 2px var(--primary);
 }
 
 @keyframes fall-and-fade {

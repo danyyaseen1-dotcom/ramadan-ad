@@ -97,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Accumulation: leave it at the bottom for a while
             setTimeout(() => {
+                particle.classList.add('landed');
                 particle.style.opacity = '0.7';
                 // Remove eventually to keep performance
                 setTimeout(() => {
