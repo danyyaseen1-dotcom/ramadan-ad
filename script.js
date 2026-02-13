@@ -61,47 +61,78 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function createSparkle(x, y) {
+    function createSparkle(x, y, isLantern = false) {
         const particle = document.createElement('div');
 
-        // Randomly choose particle type (Moons more frequent, lanterns occasional)
+        // Randomly choose particle type
         const rand = Math.random();
-        if (rand < 0.5) {
-            particle.className = 'sparkle moon-particle';
-        } else if (rand < 0.7) {
+        if (isLantern) {
             particle.className = 'sparkle lantern-particle';
+        } else if (rand < 0.5) {
+            particle.className = 'sparkle moon-particle';
         } else {
             particle.className = 'sparkle';
         }
 
-        // Random fall direction
-        const tx = (Math.random() - 0.5) * 150;
-        const ty = 150 + Math.random() * 150;
-
-        particle.style.setProperty('--tx', `${tx}px`);
-        particle.style.setProperty('--ty', `${ty}px`);
-
         particle.style.left = `${x}px`;
         particle.style.top = `${y}px`;
 
-        // Randomize size slightly
-        const size = 5 + Math.random() * 8;
+        const size = (isLantern ? 4 : 5) + Math.random() * 5;
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
 
-        document.body.appendChild(particle);
+        if (isLantern) {
+            // Gravity fall logic for lanterns
+            const fallDuration = 2 + Math.random() * 2;
+            const drift = (Math.random() - 0.5) * 100;
+            const targetY = window.innerHeight - 20; // Bottom of viewport
 
-        // Remove after animation
-        setTimeout(() => {
-            particle.remove();
-        }, 1500);
+            particle.style.transition = `transform ${fallDuration}s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity ${fallDuration}s`;
+            document.body.appendChild(particle);
+
+            // Trigger animation next frame
+            requestAnimationFrame(() => {
+                particle.style.transform = `translate(${drift}px, ${targetY - y}px) rotate(${Math.random() * 360}deg)`;
+            });
+
+            // Accumulation: leave it at the bottom for a while
+            setTimeout(() => {
+                particle.style.opacity = '0.7';
+                // Remove eventually to keep performance
+                setTimeout(() => {
+                    particle.style.opacity = '0';
+                    setTimeout(() => particle.remove(), 1000);
+                }, 10000);
+            }, fallDuration * 1000);
+        } else {
+            // Original mouse sparkle logic
+            const tx = (Math.random() - 0.5) * 150;
+            const ty = 150 + Math.random() * 150;
+            particle.style.setProperty('--tx', `${tx}px`);
+            particle.style.setProperty('--ty', `${ty}px`);
+            document.body.appendChild(particle);
+            setTimeout(() => particle.remove(), 1500);
+        }
     }
+
+    // Drop sparkles from lanterns periodically
+    setInterval(() => {
+        const lights = document.querySelectorAll('.fanoos-light');
+        lights.forEach(light => {
+            const rect = light.getBoundingClientRect();
+            // Only drop if lantern is somewhat visible
+            if (rect.top > -100 && rect.top < window.innerHeight) {
+                if (Math.random() > 0.6) {
+                    createSparkle(rect.left + rect.width / 2, rect.top + rect.height / 2, true);
+                }
+            }
+        });
+    }, 300);
 
     document.addEventListener('mousemove', (e) => {
         const x = e.clientX;
         const y = e.clientY;
 
-        // Create several particles per move
         for (let i = 0; i < 4; i++) {
             if (Math.random() > 0.4) {
                 createSparkle(x, y);
@@ -109,7 +140,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Touch support for mobile
     document.addEventListener('touchmove', (e) => {
         const touch = e.touches[0];
         for (let i = 0; i < 6; i++) {
