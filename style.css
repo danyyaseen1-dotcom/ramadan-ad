@@ -667,27 +667,63 @@ nav ul li a:hover {
     .moon-text {
         position: absolute;
         top: 25%;
-        /* Lifted further to center perfectly with moon */
         left: -80px;
-        /* Position to the left of the crescent tip */
         width: 200px;
         text-align: center;
         font-family: 'Rakkas', serif;
         font-size: 2.2rem;
-        color: #FFD700;
-        text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-        transform: rotate(-10deg);
-        /* Slight decorative tilt */
+        font-weight: 400;
+
+        /* Gold Gradient Text */
+        background: linear-gradient(135deg, #FFD700 0%, #FFFACD 50%, #B8860B 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+
+        filter: drop-shadow(0 0 5px rgba(218, 165, 32, 0.4));
+
+        /* Hand-written feel */
+        transform: rotate(-8deg) skewX(-5deg);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
         opacity: 0;
-        animation: fadeInText 2s ease-out 1s forwards;
+        animation: fadeInCalligraphy 2s ease-out 1s forwards;
         pointer-events: none;
         z-index: 51;
     }
 
-    @keyframes fadeInText {
+    /* Adding artistic dots (Nuqat) to mimic Diwani Jali density */
+    .moon-text::before,
+    .moon-text::after {
+        content: '.';
+        position: absolute;
+        -webkit-text-fill-color: #FFD700;
+        font-size: 1.5rem;
+        filter: blur(0.5px);
+    }
+
+    .moon-text::before {
+        top: -10px;
+        right: 40px;
+        text-shadow: 15px 5px 0 #FFD700, -20px 25px 0 #FFD700;
+    }
+
+    .moon-text::after {
+        bottom: -5px;
+        left: 50px;
+        text-shadow: -10px -5px 0 #FFD700, 30px -15px 0 #FFD700;
+    }
+
+    @keyframes fadeInCalligraphy {
+        from {
+            opacity: 0;
+            filter: blur(10px);
+        }
+
         to {
             opacity: 1;
-            margin-top: 0;
+            filter: blur(0);
         }
     }
 
