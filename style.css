@@ -662,20 +662,32 @@ nav ul li a:hover {
     }
 
     .lanterns {
-        display: block;
-        transform: scale(0.45);
-        /* Scale down more for small screens */
+        display: flex;
+        justify-content: space-evenly;
+        align-items: flex-start;
+        padding: 0 5%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: auto;
+        transform: scale(0.6);
         transform-origin: top center;
-        opacity: 0.9;
+        z-index: 2;
     }
 
-    /* Keep it simple on mobile: hide most lanterns */
-    .lantern:nth-child(even) {
-        display: none;
+    .lantern {
+        position: relative !important;
+        left: auto !important;
+        top: 0 !important;
+        flex: 0 0 auto;
     }
 
-    .lantern:nth-child(3),
-    .lantern:nth-child(5) {
+    /* Clear and organized: Show only 3 lanterns on mobile */
+    .lantern:nth-child(2),
+    .lantern:nth-child(4),
+    .lantern:nth-child(5),
+    .lantern:nth-child(6) {
         display: none;
     }
 
