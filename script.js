@@ -77,13 +77,13 @@ document.addEventListener('DOMContentLoaded', () => {
         particle.style.left = `${x}px`;
         particle.style.top = `${y}px`;
 
-        const size = (isLantern ? 4 : 5) + Math.random() * 5;
+        const size = (isLantern ? 3 : 5) + Math.random() * 3;
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
 
         if (isLantern) {
-            // Gravity fall logic for lanterns
-            const fallDuration = 2 + Math.random() * 2;
+            // Gravity fall logic for lanterns - Slower fall
+            const fallDuration = 5 + Math.random() * 5;
             const drift = (Math.random() - 0.5) * 100;
             const targetY = window.innerHeight - 20; // Bottom of viewport
 
