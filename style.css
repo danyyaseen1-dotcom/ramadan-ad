@@ -645,12 +645,15 @@ nav ul li a:hover {
     }
 
     .moon-container {
-        width: 120px;
-        height: 120px;
+        width: 100px;
+        /* Slightly smaller to fit side */
+        height: 100px;
         top: 20px;
-        right: 0;
-        left: 0;
-        margin: 0 auto;
+        right: auto;
+        left: 20px;
+        /* Position to the left */
+        margin: 0;
+        /* Remove centering */
         z-index: 50;
         /* Ensure moon is on top */
     }
