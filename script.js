@@ -44,17 +44,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- GOLDEN CRESCENT PARTICLES ON SAMOSA HOVER & CRUNCH ON CLICK ---
+    // --- GOLDEN CRESCENT PARTICLES ON MOUSEMOVE (ENTIRE PAGE) ---
+    document.addEventListener('mousemove', (e) => {
+        // Create golden crescent particles anywhere on page
+        if (Math.random() > 0.8) { // 20% chance per mousemove (lower than before for better performance)
+            createGoldenCrescent(e.clientX, e.clientY);
+        }
+    });
+
+    // --- CRUNCH EFFECT ON SAMOSA CLICK ---
     const heroSamosa = document.querySelector('.samosa-3d');
     if (heroSamosa) {
-        // Golden crescent particles on mousemove
-        heroSamosa.addEventListener('mousemove', (e) => {
-            // Create golden crescent particles
-            if (Math.random() > 0.7) { // 30% chance per mousemove
-                createGoldenCrescent(e.clientX, e.clientY);
-            }
-        });
-
         // Crunch effect on click
         heroSamosa.addEventListener('click', (e) => {
             // Explode crumbs
