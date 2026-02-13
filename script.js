@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         particle.style.left = `${x}px`;
         particle.style.top = `${y}px`;
 
-        const size = Math.random() * 3 + 1; // Slightly larger for more "shine"
+        const size = (isLantern ? 1.5 : 4) + Math.random() * 2; // Increased base size for more shine
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
 
@@ -136,8 +136,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const x = e.clientX;
             const y = e.clientY;
 
-            for (let i = 0; i < 2; i++) {
-                if (Math.random() > 0.3) {
+            for (let i = 0; i < 5; i++) { // Increased density from 2 to 5
+                if (Math.random() > 0.2) {
                     createSparkle(x, y);
                 }
             }
