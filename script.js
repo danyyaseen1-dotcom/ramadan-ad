@@ -91,7 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(() => {
         const lanterns = document.querySelectorAll('.lantern');
         lanterns.forEach(lantern => {
-            if (Math.random() > 0.5) { // 50% chance per interval
+            // Increased density: 70% chance instead of 50%
+            if (Math.random() > 0.3) {
                 const rect = lantern.getBoundingClientRect();
                 createGoldenDust(
                     rect.left + rect.width / 2 + (Math.random() - 0.5) * 20,
@@ -99,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 );
             }
         });
-    }, 200);
+    }, 150); // Faster interval: 150ms instead of 200ms for more particles
 
     // Helper function to create golden dust from lanterns
     function createGoldenDust(x, y) {
@@ -108,14 +109,24 @@ document.addEventListener('DOMContentLoaded', () => {
         dust.style.left = `${x}px`;
         dust.style.top = `${y}px`;
 
-        // Random fall trajectory
-        const tx = (Math.random() - 0.5) * 30;
-        const ty = Math.random() * 200 + 100;
+        // Calculate exact distance to ground (bottom of viewport)
+        const distanceToGround = window.innerHeight - y;
+
+        // Random horizontal drift
+        const tx = (Math.random() - 0.5) * 50;
+
+        // Fall exactly to the ground
         dust.style.setProperty('--tx', `${tx}px`);
-        dust.style.setProperty('--ty', `${ty}px`);
+        dust.style.setProperty('--ty', `${distanceToGround}px`);
+
+        // Calculate animation duration based on distance (slower fall for realism)
+        const duration = Math.max(2000, distanceToGround * 3); // At least 2 seconds
+        dust.style.animationDuration = `${duration}ms`;
 
         document.body.appendChild(dust);
-        setTimeout(() => dust.remove(), 3000);
+
+        // Remove after animation completes
+        setTimeout(() => dust.remove(), duration);
     }
 
     // Helper function to create crumbs on click
