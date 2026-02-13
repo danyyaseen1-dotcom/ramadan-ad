@@ -666,7 +666,8 @@ nav ul li a:hover {
 
     .moon-text {
         position: absolute;
-        top: 60%;
+        top: 40%;
+        /* Lifted up to align better with crescent center */
         left: -80px;
         /* Position to the left of the crescent tip */
         width: 200px;
