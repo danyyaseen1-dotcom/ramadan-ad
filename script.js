@@ -44,111 +44,174 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Simple visual interaction for the floating samosa
+    // --- STEAM EFFECT ENGINE ---
+    setInterval(() => {
+        const samosa = document.querySelector('.samosa-3d');
+        if (samosa) {
+            const rect = samosa.getBoundingClientRect();
+            createSteam(rect.left + rect.width / 2 + (Math.random() - 0.5) * 50, rect.top + 50);
+        }
+    }, 400);
+
+    function createSteam(x, y) {
+        const steam = document.createElement('div');
+        steam.className = 'steam';
+        steam.style.left = `${x}px`;
+        steam.style.top = `${y}px`;
+        // Random drift
+        steam.style.setProperty('--dx', `${(Math.random() - 0.5) * 40}px`);
+        document.body.appendChild(steam);
+        setTimeout(() => steam.remove(), 3000);
+    }
+
+    // --- INTERACTIVE CRUNCH FEATURE ---
     const heroSamosa = document.querySelector('.samosa-3d');
     if (heroSamosa) {
-        heroSamosa.addEventListener('click', () => {
-            heroSamosa.style.animation = 'none';
-            heroSamosa.offsetHeight; // trigger reflow
-            heroSamosa.style.animation = 'float 0.5s ease-in-out';
-
-            // Add a temporary glow
-            const glow = document.querySelector('.glow');
-            glow.style.background = 'radial-gradient(circle, rgba(255,215,0,0.6) 0%, transparent 70%)';
-            setTimeout(() => {
-                glow.style.background = 'radial-gradient(circle, rgba(255,215,0,0.2) 0%, transparent 70%)';
-            }, 500);
-        });
-    }
-
-    function createSparkle(x, y, isLantern = false) {
-        const particle = document.createElement('div');
-
-        // Randomly choose particle type
-        const rand = Math.random();
-        if (isLantern) {
-            particle.className = 'sparkle lantern-particle';
-        } else if (rand < 0.5) {
-            particle.className = 'sparkle moon-particle';
-        } else {
-            particle.className = 'sparkle';
-        }
-
-        particle.style.left = `${x}px`;
-        particle.style.top = `${y}px`;
-
-        const size = (isLantern ? 1.5 : 4) + Math.random() * 2; // Increased base size for more shine
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-
-        if (isLantern) {
-            // Floating dust logic for lanterns - Ultra-slow float
-            const fallDuration = 10 + Math.random() * 10;
-            const drift = (Math.random() - 0.5) * 100;
-            const targetY = window.innerHeight - 20; // Bottom of viewport
-
-            // Ensure they fade to 0 by the time they finish falling
-            particle.style.opacity = '0.8';
-            particle.style.transition = `transform ${fallDuration}s linear, opacity ${fallDuration}s ease-in`;
-            document.body.appendChild(particle);
-
-            // Trigger animation next frame
-            requestAnimationFrame(() => {
-                particle.style.transform = `translate(${drift}px, ${targetY - y}px) rotate(${Math.random() * 720}deg)`;
-                particle.style.opacity = '0'; // Fade to zero during the same duration
-            });
-
-            // Remove purely based on fall duration
-            setTimeout(() => {
-                particle.remove();
-            }, fallDuration * 1000);
-        } else {
-            // Original mouse sparkle logic
-            const tx = (Math.random() - 0.5) * 150;
-            const ty = 150 + Math.random() * 150;
-            particle.style.setProperty('--tx', `${tx}px`);
-            particle.style.setProperty('--ty', `${ty}px`);
-            document.body.appendChild(particle);
-            setTimeout(() => particle.remove(), 800);
-        }
-    }
-
-    // Drop sparkles from lanterns periodically
-    setInterval(() => {
-        const lights = document.querySelectorAll('.fanoos-light');
-        lights.forEach(light => {
-            const rect = light.getBoundingClientRect();
-            // Only drop if lantern is somewhat visible
-            if (rect.top > -100 && rect.top < window.innerHeight) {
-                // Increased probability for visibility
-                if (Math.random() > 0.4) {
-                    createSparkle(rect.left + rect.width / 2, rect.top + rect.height / 2, true);
-                }
+        heroSamosa.addEventListener('click', (e) => {
+            // Explode crumbs
+            for (let i = 0; i < 15; i++) {
+                createCrumb(e.clientX, e.clientY);
             }
-        });
-    }, 150);
 
-    let throttleTimeout;
+            // Visual bounce
+            heroSamosa.style.transform = "scale(0.9) rotate(15deg)";
+            setTimeout(() => {
+                heroSamosa.style.transform = "scale(1) rotate(15deg)";
+            }, 100);
+        });
+    }
+
+    function createCrumb(x, y) {
+        const crumb = document.createElement('div');
+        crumb.className = 'crumb';
+        crumb.style.left = `${x}px`;
+        crumb.style.top = `${y}px`;
+
+        const ex = (Math.random() - 0.5) * 200;
+        const ey = (Math.random() - 0.5) * 200;
+        crumb.style.setProperty('--ex', `${ex}px`);
+        crumb.style.setProperty('--ey', `${ey}px`);
+
+        document.body.appendChild(crumb);
+        setTimeout(() => crumb.remove(), 800);
+    }
+
+    // --- PARALLAX ENGINE ---
     document.addEventListener('mousemove', (e) => {
-        if (throttleTimeout) return;
+        const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+        const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
 
-        throttleTimeout = setTimeout(() => {
-            const x = e.clientX;
-            const y = e.clientY;
+        // Apply varying intensities
+        const moon = document.querySelector('.moon-container');
+        if (moon) moon.style.transform = `translate(${moveX * 3}px, ${moveY * 3}px)`;
 
-            for (let i = 0; i < 5; i++) { // Increased density from 2 to 5
-                if (Math.random() > 0.2) {
-                    createSparkle(x, y);
-                }
-            }
-            throttleTimeout = null;
-        }, 30);
+        const lanterns = document.querySelector('.lanterns');
+        if (lanterns) lanterns.style.transform = `translate(${moveX * -2}px, ${moveY * -1}px)`;
+
+        const heroVisual = document.querySelector('.hero-visual');
+        if (heroVisual) heroVisual.style.transform = `translate(${moveX * 5}px, ${moveY * 5}px)`;
     });
 
-    document.addEventListener('touchmove', (e) => {
-        const touch = e.touches[0];
-        for (let i = 0; i < 3; i++) {
-            createSparkle(touch.clientX, touch.clientY);
+    // --- SMART countdown LOGIC ---
+    function updateCountdown() {
+        const now = new Date();
+        const yemenTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Aden' }));
+
+        // Mocking Ramadan Maghrib (roughly 6:15 PM)
+        const target = new Date(yemenTime);
+        target.setHours(18, 15, 0);
+
+        if (yemenTime > target) {
+            // If passed, target next day or Suhur (3:00 AM)
+            target.setDate(target.getDate() + 1);
+            document.getElementById('timer-label').innerText = "الوقت المتبقي للسحور";
+            target.setHours(3, 0, 0);
+        } else {
+            document.getElementById('timer-label').innerText = "الوقت المتبقي للإفطار";
         }
+
+        const diff = target - yemenTime;
+        const h = Math.floor(diff / (1000 * 60 * 60));
+        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+        document.getElementById('hours').innerText = h.toString().padStart(2, '0');
+        document.getElementById('minutes').innerText = m.toString().padStart(2, '0');
+        document.getElementById('seconds').innerText = s.toString().padStart(2, '0');
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // --- GREETING CARD GENERATOR ---
+    const generateBtn = document.getElementById('generate-btn');
+    const nameInput = document.getElementById('user-name');
+    const canvas = document.getElementById('card-canvas');
+    const ctx = canvas.getContext('2d');
+    const downloadLink = document.getElementById('download-link');
+
+    generateBtn.addEventListener('click', () => {
+        const userName = nameInput.value.trim();
+        if (!userName) {
+            alert("يرجى كتابة اسمك أولاً!");
+            return;
+        }
+
+        canvas.style.display = 'block';
+        drawGreetingCard(userName);
     });
+
+    function drawGreetingCard(name) {
+        // Background
+        const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+        grad.addColorStop(0, '#1A1A1A');
+        grad.addColorStop(1, '#3D2B1F');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Decorative Border
+        ctx.strokeStyle = '#FFD700';
+        ctx.lineWidth = 15;
+        ctx.strokeRect(30, 30, canvas.width - 60, canvas.height - 60);
+
+        // Ornament dots
+        ctx.fillStyle = '#FFD700';
+        for (let i = 0; i < 100; i++) {
+            ctx.beginPath();
+            ctx.arc(Math.random() * canvas.width, Math.random() * canvas.height, Math.random() * 2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Title text
+        ctx.fillStyle = '#FFD700';
+        ctx.textAlign = 'center';
+        ctx.font = 'bold 60px Amiri';
+        ctx.fillText('كل عام وأنتم بخير', canvas.width / 2, 250);
+
+        // Main Greeting
+        ctx.font = '70px Amiri';
+        ctx.fillText('رمضان كريم', canvas.width / 2, 400);
+
+        // User Name
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 80px Amiri';
+        ctx.fillText(name, canvas.width / 2, 550);
+
+        // Subtext
+        ctx.fillStyle = '#FFD700';
+        ctx.font = '30px Tajawal';
+        ctx.fillText('من عائلة رقائق بلال العقاب', canvas.width / 2, 700);
+
+        // Logo text at bottom
+        ctx.font = '900 40px Tajawal';
+        ctx.fillText('بلال العقاب', canvas.width / 2, 850);
+
+        // Show download link
+        downloadLink.style.display = 'inline-block';
+        downloadLink.href = canvas.toDataURL('image/png');
+        downloadLink.download = `Ramadan_Kareem_${name}.png`;
+
+        // Scroll to preview
+        canvas.scrollIntoView({ behavior: 'smooth' });
+    }
 });

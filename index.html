@@ -34,6 +34,22 @@
                 <a href="#order" class="btn-primary">جرب القرمشة</a>
                 <a href="#menu" class="btn-secondary">شوف المنيو</a>
             </div>
+
+            <!-- Smart Countdown -->
+            <div class="countdown-box">
+                <div class="label" id="timer-label">الوقت المتبقي للإفطار</div>
+                <div class="timer-display" id="countdown-timer">
+                    <div class="timer-part">
+                        <div id="hours">00</div><span>ساعة</span>
+                    </div>
+                    <div class="timer-part">
+                        <div id="minutes">00</div><span>دقيقة</span>
+                    </div>
+                    <div class="timer-part">
+                        <div id="seconds">00</div><span>ثانية</span>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="hero-visual">
             <div class="samosa-3d">
@@ -122,6 +138,21 @@
                 <div class="icon">🍞</div>
                 <h4>الخبز الشامي</h4>
                 <p>خبز شامي طازج يومياً، مثالي للسحور والإفطار وبأعلى جودة.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="greeting" class="greeting-generator">
+        <div class="container">
+            <h3>أرسل تهنئة خاصة باسمك 💌</h3>
+            <p>اكتب اسمك أدناه لتحميل بطاقة تهنئة فخمة من رقائق بلال العقاب</p>
+            <div class="generator-controls">
+                <input type="text" id="user-name" placeholder="اكتب اسمك هنا..." maxlength="20">
+                <button id="generate-btn" class="btn-primary">إنشاء البطاقة</button>
+            </div>
+            <div class="card-preview-container">
+                <canvas id="card-canvas" width="800" height="1000"></canvas>
+                <a id="download-link" class="btn-secondary" style="display: none;">تحميل البطاقة ✨</a>
             </div>
         </div>
     </section>
