@@ -664,47 +664,73 @@ nav ul li a:hover {
     .lanterns {
         display: flex;
         flex-direction: row;
-        justify-content: center;
-        /* Center them perfectly */
-        gap: 20px;
-        /* Space between lanterns */
+        justify-content: space-between;
+        /* Spread them out fully */
         align-items: flex-start;
+        padding: 0 10px;
+        /* Small padding on edges */
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: auto;
-        transform: scale(0.6);
+        transform: scale(0.65);
+        /* Slightly larger for visibility */
         transform-origin: top center;
         z-index: 2;
-        padding: 0;
-        /* Remove padding for true centering */
     }
 
     .lantern {
         position: relative !important;
-        /* Move out of absolute flow */
         left: auto !important;
-        /* Override inline styles */
         right: auto !important;
-        /* Override inline styles */
         top: 0 !important;
         flex: 0 0 auto;
-        width: 45px;
-        /* Fixed width for consistent spacing */
+        width: auto;
     }
 
-    /* Selection for perfect symmetry: Show only 1st, 3rd, and 6th lanterns */
+    /* Strict Selection & Ordering for Symmetry: Old - Royal - Royal(Center) - Royal - Old */
+
     .lantern {
-        display: none;
+        display: none !important;
     }
 
-    /* Hide all first */
-    .lantern:nth-child(1),
-    .lantern:nth-child(3),
+    /* Hide all initially */
+
+    /* Far Left: Lantern 1 (Old) */
+    .lantern:nth-child(1) {
+        display: flex !important;
+        order: 1;
+    }
+
+    /* Left Mid: Lantern 4 (Royal) */
+    .lantern:nth-child(4) {
+        display: flex !important;
+        order: 2;
+    }
+
+    /* Center: Lantern 5 (Royal - Long String) */
+    .lantern:nth-child(5) {
+        display: flex !important;
+        order: 3;
+    }
+
+    /* Right Mid: Lantern 6 (Royal) */
     .lantern:nth-child(6) {
-        display: flex;
-        /* Show only these three */
+        display: flex !important;
+        order: 4;
+    }
+
+    /* Far Right: Lantern 3 (Old) */
+    .lantern:nth-child(3) {
+        display: flex !important;
+        order: 5;
+    }
+
+    /* Adjust string lengths for mobile symmetry if needed */
+    .lantern:nth-child(5) .string {
+        height: 120px !important;
+        /* Ensure the center one is longest but fits */
     }
 
     .string {
