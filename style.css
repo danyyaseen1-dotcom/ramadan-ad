@@ -648,8 +648,8 @@ nav ul li a:hover {
         width: 140px;
         /* Slightly larger to fill the space */
         height: 140px;
-        top: 25%;
-        /* Move down to the empty center space */
+        top: 21%;
+        /* Lift up a bit more for perfect balance */
         right: 0;
         left: 0;
         margin: 0 auto;
